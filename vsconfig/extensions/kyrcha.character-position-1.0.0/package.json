@@ -1,0 +1,57 @@
+{
+	"name": "character-position",
+	"displayName": "Character Position",
+	"publisher": "kyrcha",
+	"description": "Display character position in files",
+	"version": "1.0.0",
+	"icon": "images/icon.png",
+	"engines": {
+		"vscode": "^1.35.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.characterPosition"
+	],
+	"main": "./extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.characterPosition",
+				"title": "Character Position"
+			}
+		]
+	},
+	"scripts": {
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "node ./node_modules/vscode/bin/test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kyrcha/character-position.git"
+	},
+	"devDependencies": {
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.28",
+		"eslint": "^5.13.0",
+		"@types/node": "^10.12.21",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"diff": "^4.0.1"
+	},
+	"__metadata": {
+		"id": "e6051040-d476-4bd2-8873-a405b5552348",
+		"publisherId": "cb712717-f4ad-4cff-a520-726c756e4f07",
+		"publisherDisplayName": "Kyriakos Chatzidimitriou",
+		"targetPlatform": "undefined",
+		"isApplicationScoped": false,
+		"isPreReleaseVersion": false,
+		"hasPreReleaseVersion": false,
+		"installedTimestamp": 1719393940980,
+		"pinned": false,
+		"preRelease": false,
+		"source": "gallery"
+	}
+}
