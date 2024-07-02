@@ -128,7 +128,7 @@ echo "┏━━━━━━━━━━━━━━━━━━━━━━━�
 echo "┃ Don't forget to do the following!                                             ┃"
 echo "┃  Install node/nvm (fisher: https://github.com/jorgebucaran/nvm.fish)         ┃"
 echo "┃  Install golang                                                              ┃"
-echo "┃  Set up iterm2 with config from './iterm2.settings.itermexport'              ┃"
+echo "┃  Manually set up iterm2 with config from './iterm2.settings.itermexport'     ┃"
 echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
 
 # Change to fish shell
