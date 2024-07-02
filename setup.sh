@@ -33,8 +33,8 @@ else
     echo "Skipping..."
 fi
 
-# Install handy brew tools
-if prompt_to_continue "🍺 Installing handy brew tools"; then
+# Install handy brew CLI tools
+if prompt_to_continue "🍺 Installing brew CLI tools"; then
     brew install --force \
         fish \
         jq \
@@ -44,6 +44,23 @@ if prompt_to_continue "🍺 Installing handy brew tools"; then
         eza \
         font-fira-code-nerd-font \
         font-fira-mono-nerd-font
+else
+    echo "Skipping..."
+fi
+
+# Install handy brew GUI tools
+if prompt_to_continue "🍺 Install brew GUI apps"; then
+    PARAMS=( visual-studio-code )
+    
+    # Check if iterm2 is already installed
+    if [ -d "/Applications/iTerm.app" ]; then
+        echo "iTerm2 is already installed... Skipping!"
+    else
+        # If it's not, add it to the brew install params
+        PARAMS=( "${PARAMS[@]}" )
+    fi
+
+    brew install --cask ${PARAMS[@]}
 else
     echo "Skipping..."
 fi
@@ -69,17 +86,6 @@ fi
 # -----------------------------------------------------------
 # |                  ENDING SUDO SECTION                    |
 # -----------------------------------------------------------
-
-# Install iterm2
-if prompt_to_continue "💻 Install iterm2"; then
-    if [ -d "/Applications/iTerm.app" ]; then
-        echo "iTerm2 is already installed... Skipping!"
-    else
-        brew install --cask iterm2
-    fi
-else
-    echo "Skipping..."
-fi
 
 # Install omf
 if prompt_to_continue "🐟 Install oh-my-fish"; then
