@@ -2,4 +2,3 @@
 if test "$TERM_PROGRAM" != "vscode"
     cd ~/git
 end
-

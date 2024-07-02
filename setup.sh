@@ -2,35 +2,57 @@
 
 USER="$(whoami)"
 
+prompt_to_continue () {
+    local TITLE=$1
+    read -p "$TITLE?: <enter> or type <skip|no|n>: " response
+
+    case $response in
+        skip|n|no)
+            return 1
+            ;;
+        *)
+            return 0
+            ;;
+    esac
+}
+
 echo "Running setup script as user: $USER"
 
 # Install homebrew
-read -p "🍺 Installing homebrew... <enter>"
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if prompt_to_continue "🍺 Install homebrew"; then
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Add Homebrew to current PATH
-eval "$(/opt/homebrew/bin/brew shellenv)"
+    # Add Homebrew to current PATH
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Add Homebrew to fish's PATH (via config.fish) if it's not already present
-if ! grep -q "brew shellenv" ~/.config/fish/config.fish 2>/dev/null; then
-    echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/j.philippi/.config/fish/config.fish
+    # Add Homebrew to fish's PATH (via config.fish) if it's not already present
+    if ! grep -q "brew shellenv" ~/.config/fish/config.fish 2>/dev/null; then
+        echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/j.philippi/.config/fish/config.fish
+    fi
+else
+    echo "Skipping..."
 fi
 
 # Install handy brew tools
-read -p "🍺 Installing handy brew tools... <enter>"
-brew install --force \
-    fish \
-    jq \
-    gh \
-    eza \
-    font-fira-code-nerd-font \
-    font-fira-mono-nerd-fontbrew
+if prompt_to_continue "🍺 Installing handy brew tools"; then
+    brew install --force \
+        fish \
+        jq \
+        nvm \
+        go \
+        gh \
+        eza \
+        font-fira-code-nerd-font \
+        font-fira-mono-nerd-font
+else
+    echo "Skipping..."
+fi
 
 # -----------------------------------------------------------
 # |                      SUDO SECTION                       |
 # -----------------------------------------------------------
 
-read -p "🔒 Enabling sudo to change shell... <enter>"
+if prompt_to_continue "🔒 Enable sudo and change shell to fish"; then
 sudo bash <<END_SUDO
     # Enable sudo to set up config
     sudo su
@@ -40,46 +62,74 @@ sudo bash <<END_SUDO
     echo "$(which fish)" | tee -a /etc/shells
     chsh -s "$(which fish)" $USER
 END_SUDO
+else
+    echo "Skipping..."
+fi
 
 # -----------------------------------------------------------
 # |                  ENDING SUDO SECTION                    |
 # -----------------------------------------------------------
 
 # Install iterm2
-read -p "💻 Installing iterm2... <enter>"
-if [ -d "/Applications/iTerm.app" ]; then
-    echo "iTerm2 is already installed... Skipping!"
+if prompt_to_continue "💻 Install iterm2"; then
+    if [ -d "/Applications/iTerm.app" ]; then
+        echo "iTerm2 is already installed... Skipping!"
+    else
+        brew install --cask iterm2
+    fi
 else
-    brew install --cask iterm2
+    echo "Skipping..."
 fi
 
 # Install omf
-read -p "🐟 Installing oh-my-fish... <enter>"
-OMF_PATH=$(fish -c 'set -q OMF_PATH; and echo $OMF_PATH || echo ""')
+if prompt_to_continue "🐟 Install oh-my-fish"; then
+    OMF_PATH=$(fish -c 'set -q OMF_PATH; and echo $OMF_PATH || echo ""')
 
-if [ ! -z "$OMF_PATH" ]; then
-    echo "Existing omf installation found at $OMF_PATH"
+    if [ ! -z "$OMF_PATH" ]; then
+        echo "Existing omf installation found at $OMF_PATH"
+    else
+        curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command 'set argv --noninteractive'
+    fi
 else
-    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish --init-command 'set argv --noninteractive'
+    echo "Skipping..."
+fi
+
+# Install nvm wrapper for fish shell
+if prompt_to_continue "🐟 Install nvm wrapper for fish shell"; then
+    fish -c "omf install nvm"
+else
+    echo "Skipping..."
 fi
 
 # Install bobthefish theme
-read -p "🐟 Installing bobthefish theme... <enter>"
-fish -c "omf install bobthefish"
+if prompt_to_continue "🐟 Install bobthefish theme"; then
+    fish -c "omf install bobthefish"
+else
+    echo "Skipping..."
+fi
 
 # Set up vscode config and extensions
-read -p "💻 Setting up vscode extensions... <enter>"
-mkdir -p ~/.vscode/extensions
-cp -R ./vsconfig/extensions/* ~/.vscode/extensions
+if prompt_to_continue "💻 Import vscode extensions from config"; then
+    mkdir -p ~/.vscode/extensions
+    cp -R ./vsconfig/extensions/* ~/.vscode/extensions
+else
+    echo "Skipping..."
+fi
 
-read -p "💻 Setting up vscode user settings... <enter>"
-mkdir -p $HOME/Library/Application\ Support/Code/User/
-cp -R ./vsconfig/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+if prompt_to_continue "💻 Import vscode user settings from config"; then
+    mkdir -p $HOME/Library/Application\ Support/Code/User/
+    cp -R ./vsconfig/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+else
+    echo "Skipping..."
+fi
 
 # Manual steps
-echo "Don't forget to do the following!"
-echo " Install node / nvm (fisher: https://github.com/jorgebucaran/nvm.fish)"
-echo " Set up iterm2 with config from './iterm2.settings.itermexport'"
+echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
+echo "┃ Don't forget to do the following!                                             ┃"
+echo "┃  Install node/nvm (fisher: https://github.com/jorgebucaran/nvm.fish)         ┃"
+echo "┃  Install golang                                                              ┃"
+echo "┃  Set up iterm2 with config from './iterm2.settings.itermexport'              ┃"
+echo "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛"
 
 # Change to fish shell
 echo "🐟 Changing to fish shell..."
