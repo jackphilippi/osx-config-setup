@@ -54,6 +54,7 @@ if prompt_to_continue "🚀 Install starship theme for fish?"; then
 
     # Add Homebrew to fish's PATH (via config.fish) if it's not already present
     if ! grep -q "starship init" ~/.config/fish/config.fish 2>/dev/null; then
+        echo; echo '# Set up ' >> ~/.config/fish/config.fish
         echo; echo 'starship init fish | source' >> ~/.config/fish/config.fish
     fi
 else
@@ -115,13 +116,6 @@ fi
 # Install nvm wrapper for fish shell
 if prompt_to_continue "🐟 Install nvm wrapper for fish shell"; then
     fish -c "omf install nvm"
-else
-    echo "Skipping..."
-fi
-
-# Install bobthefish theme
-if prompt_to_continue "🐟 Install bobthefish theme"; then
-    fish -c "omf install bobthefish"
 else
     echo "Skipping..."
 fi
