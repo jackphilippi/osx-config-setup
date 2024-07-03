@@ -27,7 +27,7 @@ if prompt_to_continue "🍺 Install homebrew"; then
 
     # Add Homebrew to fish's PATH (via config.fish) if it's not already present
     if ! grep -q "brew shellenv" ~/.config/fish/config.fish 2>/dev/null; then
-        echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/j.philippi/.config/fish/config.fish
+        echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.config/fish/config.fish
     fi
 else
     echo "Skipping..."
@@ -37,6 +37,7 @@ fi
 if prompt_to_continue "🍺 Installing brew CLI tools"; then
     brew install --force \
         fish \
+        starship \
         jq \
         nvm \
         go \
@@ -44,6 +45,17 @@ if prompt_to_continue "🍺 Installing brew CLI tools"; then
         eza \
         font-fira-code-nerd-font \
         font-fira-mono-nerd-font
+else
+    echo "Skipping..."
+fi
+
+if prompt_to_continue "🚀 Install starship theme for fish?"; then
+    brew install --force starship
+
+    # Add Homebrew to fish's PATH (via config.fish) if it's not already present
+    if ! grep -q "starship init" ~/.config/fish/config.fish 2>/dev/null; then
+        echo; echo 'starship init fish | source' >> ~/.config/fish/config.fish
+    fi
 else
     echo "Skipping..."
 fi
