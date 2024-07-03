@@ -60,6 +60,8 @@ The script sets up vs code with some predefined user settings and extensions:
 
 See [vscode/settings.json](vsconfig/settings.json) for the user settings file that will be used.
 
+### Extensions
+
 The following extensions are installed by this script:
 
 | Extension           | Description                                                             |
@@ -74,3 +76,7 @@ The following extensions are installed by this script:
 | material-icon-theme | icons for files and folders in the workbench                            |
 | vscode-yaml         | various tools for yaml                                                  |
 | partial-diff        | an in-IDE diff tool for comparing things                                |
+
+### Keybindings
+
+TODO :)
