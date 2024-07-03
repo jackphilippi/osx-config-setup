@@ -115,16 +115,26 @@ else
 fi
 
 # Set up vscode config and extensions
-if prompt_to_continue "💻 Import vscode extensions from config"; then
+if prompt_to_continue "💻 Import (overwrite) vscode extensions from config"; then
     mkdir -p ~/.vscode/extensions
     cp -R ./vsconfig/extensions/* ~/.vscode/extensions
+    echo "VS Code extensions set up in \"~/.vscode/extensions\""
 else
     echo "Skipping..."
 fi
 
-if prompt_to_continue "💻 Import vscode user settings from config"; then
+if prompt_to_continue "💻 Import (overwrite) vscode user keybindings from config"; then
+    mkdir -p $HOME/Library/Application\ Support/Code/User/
+    cp -R ./vsconfig/keybindings.json $HOME/Library/Application\ Support/Code/User/keybindings.json
+    echo "VS Code keybindings set up in \"$HOME/Library/Application\ Support/Code/User/keybindings.json\""
+else
+    echo "Skipping..."
+fi
+
+if prompt_to_continue "💻 Import (overwrite) vscode user settings from config"; then
     mkdir -p $HOME/Library/Application\ Support/Code/User/
     cp -R ./vsconfig/settings.json $HOME/Library/Application\ Support/Code/User/settings.json
+    echo "VS Code settings set up in \"$HOME/Library/Application\ Support/Code/User/settings.json\""
 else
     echo "Skipping..."
 fi
