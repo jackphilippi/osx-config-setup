@@ -1,0 +1,37 @@
+# Get editor completions based on the config schema
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+format = "$directory$git_branch$git_status$all"
+
+[line_break]
+disabled = true 
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[aws]
+disabled = true
+# symbol = ''
+# format = 'on [$symbol($profile) \(($region)\)](blue)'
+
+[git_branch]
+symbol = " "
+format = "[$symbol$branch(:$remote_branch)]($style) "
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+
+[terraform]
+disabled = true
+
+[directory]
+truncate_to_repo = false
+truncation_length = 4
+truncation_symbol = "…/"
