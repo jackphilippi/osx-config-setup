@@ -6,6 +6,10 @@ add_newline = true
 
 format = "$directory$git_branch$git_status$all"
 
+[character]
+success_symbol = "[](bold green)"
+error_symbol = "[](bold red)"
+
 [line_break]
 disabled = true 
 
@@ -17,21 +21,25 @@ disabled = true
 disabled = true
 
 [aws]
-disabled = true
-# symbol = ''
-# format = 'on [$symbol($profile) \(($region)\)](blue)'
+# disabled = true
+symbol = "󰈷 "
+style = "yellow"
+format = "[$symbol($profile)]($style) "
 
 [git_branch]
 symbol = " "
+style = "purple"
 format = "[$symbol$branch(:$remote_branch)]($style) "
 
 [git_status]
-format = "([$all_status$ahead_behind]($style) )"
+style = "red"
+format = "([$all_status$ahead_behind]($style)) "
 
 [terraform]
 disabled = true
 
 [directory]
 truncate_to_repo = false
-truncation_length = 4
+truncation_length = 2
 truncation_symbol = "…/"
+style = "cyan"

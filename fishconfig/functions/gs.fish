@@ -1,4 +1,4 @@
-# Defined via ~/.config/fish/functions/gs.fish
+# Defined via `source`
 function gs --wraps='git status' --description 'alias gs git status'
-  git status -sb $argv; 
+  git status $argv; 
 end
