@@ -1,6 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export AWS_PROFILE:easygo\x2dstaging
+SETUVAR --export AWS_DEFAULT_PROFILE:eg\x2dstaging
+SETUVAR --export AWS_PROFILE:eg\x2dstaging
+SETUVAR --export AWS_REGION:eu\x2dwest\x2d1
 SETUVAR --export TEAM_NAME:casino
 SETUVAR --export TF_LOG:INFO
 SETUVAR __fish_initialized:3400

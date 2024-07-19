@@ -1,45 +1,47 @@
 # Get editor completions based on the config schema
 "$schema" = "https://starship.rs/config-schema.json"
 
-# Inserts a blank line between shell prompts
-add_newline = true
+# add_newline = false
 
-format = "$directory$git_branch$git_status$all"
+format = """
+$directory\
+$git_branch\
+$git_status\
+$aws\
+$nodejs\
+$kubernetes\
+$line_break\
+$character
+"""
 
 [character]
-success_symbol = "[](bold green)"
-error_symbol = "[](bold red)"
-
-[line_break]
-disabled = true 
-
-# Disable the package module, hiding it from the prompt completely
-[package]
-disabled = true
-
-[nodejs]
-disabled = true
+success_symbol = "[>](#9ED06C)"
+error_symbol = "[>](#FB617E)"
 
 [aws]
-# disabled = true
 symbol = "󰈷 "
-style = "yellow"
+style = "#EACB64"
 format = "[$symbol($profile)]($style) "
+
+[nodejs]
+format = "[$symbol($version)]($style) "
 
 [git_branch]
 symbol = " "
-style = "purple"
+style = "#FF6578"
 format = "[$symbol$branch(:$remote_branch)]($style) "
 
 [git_status]
-style = "red"
+style = "#F69C5E"
 format = "([$all_status$ahead_behind]($style)) "
-
-[terraform]
-disabled = true
 
 [directory]
 truncate_to_repo = false
 truncation_length = 2
 truncation_symbol = "…/"
-style = "cyan"
+style = "#72CCE8"
+
+[kubernetes]
+disabled = false
+style = "#BA9CF3"
+format = '[$symbol($namespace)]($style)'
